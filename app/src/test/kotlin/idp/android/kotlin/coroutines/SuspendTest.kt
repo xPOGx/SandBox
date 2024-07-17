@@ -1,4 +1,4 @@
-package coroutines
+package idp.android.kotlin.coroutines
 
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers

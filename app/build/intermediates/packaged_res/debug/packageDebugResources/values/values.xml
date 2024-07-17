@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF313333</color>
+    <color name="blue">#FF4B84F1</color>
+    <color name="grey300">#FF8F9090</color>
+    <dimen name="item_spacing">24dp</dimen>
+    <string name="app_name">SANDBOX</string>
+    <string name="false_text">I\'m false, nothing is true</string>
+    <string name="true_text">I\'m true, make !false great again</string>
+    <style name="RobotoMedium" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:fontFamily">@font/roboto_medium_500</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="RobotoRegular" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/roboto_regular_400</item>
+        <item name="android:textColor">@color/grey300</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+    <declare-styleable name="BottomBar">
+
+    </declare-styleable>
+</resources>

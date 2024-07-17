@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.example.sandbox.app-mergeDebugResources-56:/layout/layout_screen_view.xml",
+        "source": "com.example.sandbox.app-main-59:/layout/layout_screen_view.xml"
+    },
+    {
+        "merged": "com.example.sandbox.app-mergeDebugResources-56:/layout/bottom_bar_item.xml",
+        "source": "com.example.sandbox.app-main-59:/layout/bottom_bar_item.xml"
+    },
+    {
+        "merged": "com.example.sandbox.app-mergeDebugResources-56:/layout/music_item.xml",
+        "source": "com.example.sandbox.app-main-59:/layout/music_item.xml"
+    },
+    {
+        "merged": "com.example.sandbox.app-mergeDebugResources-56:/layout/bottom_bar.xml",
+        "source": "com.example.sandbox.app-main-59:/layout/bottom_bar.xml"
+    }
+]

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SANDBOX</string>
+    <string name="false_text">I\'m false, nothing is true</string>
+    <string name="true_text">I\'m true, make !false great again</string>
+</resources>

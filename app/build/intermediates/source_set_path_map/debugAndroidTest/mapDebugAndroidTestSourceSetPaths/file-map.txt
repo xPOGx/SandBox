@@ -1,0 +1,4 @@
+com.example.sandbox.test.app-androidTest-0 S:\IT\StudioProjects\SandBox\app\build\generated\res\resValues\androidTest\debug
+com.example.sandbox.test.app-mergeDebugAndroidTestResources-1 S:\IT\StudioProjects\SandBox\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.sandbox.test.app-mergeDebugAndroidTestResources-2 S:\IT\StudioProjects\SandBox\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.sandbox.test.app-debugAndroidTest-3 S:\IT\StudioProjects\SandBox\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

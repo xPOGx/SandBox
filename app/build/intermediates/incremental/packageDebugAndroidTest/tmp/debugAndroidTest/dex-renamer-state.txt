@@ -1,4 +1,0 @@
-#Wed Jul 17 14:51:50 EEST 2024
-base.0=S\:\\IT\\StudioProjects\\SandBox\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
-path.0=0/classes.dex
-renamed.0=classes.dex

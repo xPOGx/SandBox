@@ -1,9 +1,5 @@
 package idp.cs.pattern
 
-import idp.cs.pattern.ext.Car
-import idp.cs.pattern.ext.Ship
-import idp.cs.pattern.ext.Transport
-
 fun main() {
     FactoryMethod.createTransport<Car>().sound()
     val ship: Ship = FactoryMethod.createTransport()
@@ -25,3 +21,14 @@ object FactoryMethod {
         }
 }
 
+interface Transport {
+    fun sound()
+}
+
+class Car : Transport {
+    override fun sound() = println("Beep")
+}
+
+class Ship : Transport {
+    override fun sound() = println("Horn")
+}

@@ -27,6 +27,7 @@ local.properties
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
 .idea/other.xml
+.idea/appInsightsSettings.xml
 *.iml
 
 # OS-specific files

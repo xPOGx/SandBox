@@ -17,9 +17,15 @@ import com.example.sandbox.R
 import com.example.sandbox.databinding.MusicItemBinding
 import idp.ext.Music
 import idp.ext.Theme
+import idp.ext.formattedTime
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class MusicAdapter(
-    private val onItemClick: (Music) -> Unit,
+    private val coroutineScope: CoroutineScope,
+    private val onItemClick: (Music, () -> Unit) -> Unit,
 ) : ListAdapter<Music, MusicAdapter.MusicAdapterViewHolder>(DiffCallback) {
     private var lastView: View? by mutableStateOf(null)
 
@@ -31,6 +37,13 @@ class MusicAdapter(
                 tvMusicName.text = item.name
                 tvMusicArtist.text = item.artist
                 ivMusicImage.setImageResource(item.imageRes)
+                tvMaxTime.text = formattedTime(item.maxTime)
+            }
+        }
+
+        fun bindTime(time: Int) {
+            with(binding) {
+                tvCurrentTime.text = formattedTime(time)
             }
         }
     }
@@ -56,7 +69,7 @@ class MusicAdapter(
 
         with(holder) {
             itemView.setOnClickListener {
-                onItemClick(item)
+                onItemClick(item) { clear() }
 
                 if (lastView != itemView) {
                     disableView(lastView)
@@ -71,22 +84,20 @@ class MusicAdapter(
                 }
             }
 
-            bind(item)
-
-            checkRecomposition(item, itemView)
-        }
-    }
-
-    private fun checkRecomposition(item: Music?, currentView: View) {
-        item ?: return
-        // recomposition check
-        val lastText = lastView?.findViewById<TextView>(R.id.tv_music_name)?.text
-        if (lastText == item.name) {
-            currentView.apply {
-                findViewById<ImageView>(R.id.iv_music_play)?.isVisible = true
-                findViewById<TextView>(R.id.tv_music_name)?.setTextColor(Theme.colors.blue.toArgb())
+            coroutineScope.launch {
+                while (isActive) {
+                    when (item.player?.isPlaying) {
+                        true -> {
+                            val current = item.player?.currentPosition ?: 0
+                            bindTime(current)
+                        }
+                        else -> { /* ignore action */ }
+                    }
+                    delay(100)
+                }
             }
-            lastView = currentView
+
+            bind(item)
         }
     }
 
@@ -104,7 +115,7 @@ class MusicAdapter(
         }
     }
 
-    fun clear() {
+    private fun clear() {
         lastView?.apply {
             findViewById<ImageView>(R.id.iv_music_play)?.isVisible = false
             findViewById<TextView>(R.id.tv_music_name)?.setTextColor(Theme.colors.black.toArgb())

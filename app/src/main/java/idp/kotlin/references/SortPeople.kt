@@ -7,7 +7,7 @@ package idp.kotlin.references
  */
 fun main() {
     val list = Human.createHumanList()
-    val result = list.sortHuman(::sortHumanByName)::onlyName
+    val result = list.sortHuman(::sortHumanByName).onlyName()
     println(result)
     val result2 = sortHumanList(list, ::sortHumanByAge)::onlyAge.invoke()
     println(result2)

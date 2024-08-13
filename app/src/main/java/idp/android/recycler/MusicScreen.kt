@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,18 +19,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import idp.ext.Mock
 import idp.ext.Music
 
+/**
+ * UI time on item
+ * Continue after stop
+ */
 @Composable
 fun MusicScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val linearManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
     val musicMap: Map<Music, MediaPlayer> = remember {
@@ -43,40 +47,47 @@ fun MusicScreen(
             mapOf()
         }
     }
+    val musicList = musicMap.map { (music, player) ->
+        music.apply {
+            maxTime = player.duration
+            this.player = player
+        }
+    }
 
     var currentPlayer: MediaPlayer? by remember { mutableStateOf(null) }
 
-    var clear: () -> Unit = {}
-
     val musicAdapter: MusicAdapter =
-        MusicAdapter {
-            val player = musicMap[it]
+        MusicAdapter(coroutineScope) { data, clear ->
+            val player = musicMap.mapNotNull { (music, player) ->
+                if (music.musicRes == data.musicRes)  {
+                    return@mapNotNull player
+                } else {
+                    null
+                }
+            }.firstOrNull()
             player ?: return@MusicAdapter
 
             with(player) {
                 if (this == currentPlayer) {
-                    resetPlayer(currentPlayer)
-                    currentPlayer = null
+                    when {
+                        this.isPlaying -> pause()
+                        else -> start()
+                    }
                 } else {
-                    resetPlayer(currentPlayer)
-                    currentPlayer = player
+                    currentPlayer?.pause()
+                    currentPlayer = this
 
                     start()
 
                     setOnCompletionListener {
                         seekTo(0)
                         clear()
-                        currentPlayer = null
                     }
                 }
             }
         }.apply {
-            submitList(Mock.musicList)
+            submitList(musicList)
         }
-
-    LaunchedEffect(Unit) {
-        clear = { musicAdapter.clear() }
-    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -92,21 +103,11 @@ fun MusicScreen(
                 RecyclerView(context).apply {
                     layoutManager = linearManager
                     addItemDecoration(DividerItemDecoration(this.context, LinearLayout.VERTICAL))
-                    itemAnimator = DefaultItemAnimator()
                     adapter = musicAdapter
                 }
             },
             modifier = Modifier.fillMaxSize()
-        ) {
-
-        }
-    }
-}
-
-private fun resetPlayer(player: MediaPlayer?) {
-    player?.apply {
-        pause()
-        seekTo(0)
+        ) { /* ignore update */ }
     }
 }
 
